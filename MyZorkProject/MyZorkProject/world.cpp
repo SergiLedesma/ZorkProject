@@ -5,8 +5,13 @@
 
 World::World()
 {
+	/*
 	Creature* monster = new Creature("Paco"s, "El paleta"s);
-	pol = new Player("Pol", "Pot");
+	pol = new Player("Pol"s, "Pot"s);
+	Room* startingRoom = new Room("starting room name"s, "the starting room descriptiojdsoña"s);
+	Room* secondRoom = new Room("sec room name"s, "the sec room descriptiojdsoña"s);
+	Exit* north1 = new Exit("big door"s, "a huge door"s, startingRoom, secondRoom);
+	*/
 }
 
 
@@ -17,7 +22,7 @@ World::~World()
 int World::CountWords(const string& input) {
 	int numberOfWords = 1;
 	
-	for (auto& letter : input) {
+	for (char letter : input) {
 		if (isspace(letter)) {
 			numberOfWords++; //fer un split de l'input
 		}

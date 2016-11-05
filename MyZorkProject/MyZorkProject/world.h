@@ -1,9 +1,13 @@
+#ifndef __World__
+#define __World__
+
 #include "entity.h"
 #include "creature.h"
 #include "command.h"
 #include "player.h"
+#include "exit.h"
+#include "room.h"
 
-#pragma once
 
 using namespace std;
 
@@ -19,3 +23,4 @@ private:
 	Player* pol;
 };
 
+#endif

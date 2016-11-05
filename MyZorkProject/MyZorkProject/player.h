@@ -1,14 +1,20 @@
+#ifndef __Player__
+#define __Player__
+
 #include <string>
 #include <iostream>
 #include "creature.h"
-
-#pragma once
+#include "room.h"
+#include "globals.h"
 
 class Player :
 	public Creature
 {
 public:
-	Player(const string name, const string description);
+	Player(const string name, const string description, Room * room);
 	virtual ~Player();
-	bool Take(string asdf);
+	bool Go(Direction direction);
+	bool Take(string asdf)
 };
+
+#endif

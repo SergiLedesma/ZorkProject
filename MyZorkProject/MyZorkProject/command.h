@@ -1,6 +1,8 @@
+#ifndef __Command__
+#define __Command__
+
 #include <string>
 #include "player.h"
-#pragma once
 
 using namespace std;
 
@@ -13,3 +15,4 @@ public:
 	string abbreviation;
 };
 
+#endif

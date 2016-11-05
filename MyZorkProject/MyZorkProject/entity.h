@@ -1,7 +1,8 @@
+#ifndef __Entity__
+#define __Entity__
+
 #include <string>
 #include <list>
-
-#pragma once
 
 using namespace std;
 
@@ -9,7 +10,6 @@ enum EntityType
 {
 	ENTITY,
 	CREATURE,
-	NPC,
 	PLAYER,
 	EXIT,
 	ROOM,
@@ -30,3 +30,4 @@ public:
 	virtual ~Entity();
 };
 
+#endif
