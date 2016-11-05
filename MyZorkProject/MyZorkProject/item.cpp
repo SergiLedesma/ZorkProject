@@ -2,11 +2,13 @@
 
 
 
-Item::Item(const string name, const string description, Room* room, const ItemType iType) : Entity(name, description, room), iType(iType)
+Item::Item(const string name, const string description, const ItemType iType) : Entity(name, description), iType(iType)
 {
 	type = ITEM;
+	
 }
 
 Item::~Item()
 {
+	
 }

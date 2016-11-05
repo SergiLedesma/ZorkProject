@@ -8,6 +8,7 @@
 using namespace std;
 
 class Exit;
+class Item;
 
 class Room :
 	public Entity
@@ -17,6 +18,7 @@ public:
 	Room(const string name, const string description);
 	virtual ~Room();
 	bool AddExit(Exit* exit);
+	bool AddItem(Item* item);
 	Room* GetAvaliableRoomFromDirection(Direction direction);
 };
 

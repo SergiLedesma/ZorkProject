@@ -20,6 +20,11 @@ bool Room::AddExit(Exit* exit) {
 	return true;
 }
 
+bool Room::AddItem(Item* item) {
+	childEntities.push_back((Entity*)item);
+	return true;
+}
+
 Room* Room::GetAvaliableRoomFromDirection(Direction direction) {
 	Room* result = NULL;
 	

@@ -1,12 +1,14 @@
 #ifndef __World__
 #define __World__
 
+#include "globals.h"
 #include "entity.h"
 #include "creature.h"
 #include "command.h"
 #include "player.h"
 #include "exit.h"
 #include "room.h"
+#include "item.h"
 
 
 using namespace std;
@@ -20,7 +22,7 @@ public:
 	bool ParseInput(const string& input);
 
 private:
-	Player* pol;
+	Player* player;
 };
 
 #endif

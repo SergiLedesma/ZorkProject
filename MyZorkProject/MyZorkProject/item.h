@@ -4,6 +4,7 @@
 #include "entity.h"
 #include "room.h"
 
+
 using namespace std;
 
 enum ItemType
@@ -17,7 +18,7 @@ class Item :
 	public Entity
 {
 public:
-	Item(const string name, const string description, Room * room, const ItemType iType);
+	Item(const string name, const string description, const ItemType iType);
 	virtual ~Item();
 
 	ItemType iType;
