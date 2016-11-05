@@ -9,6 +9,7 @@
 #include "exit.h"
 #include "room.h"
 #include "item.h"
+#include "craftableItem.h"
 
 
 using namespace std;

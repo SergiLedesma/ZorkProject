@@ -39,7 +39,7 @@ bool Player::Take(Item* item) {
 bool Player::Drop(Item* item) {
 	bool found = false;
 	for (Entity* iter : childEntities) {
-		if (iter->name == item->name) {
+		if (iter->name.compare(item->name)) {
 			found = true;
 			break;
 		}
@@ -59,7 +59,7 @@ bool Player::Craft(CraftableItem* craftableItem) {
 	for (string itemName : craftableItem->neededItems) {
 		found = false;
 		for (Entity* entity : childEntities) {
-			if (entity->name == itemName) {
+			if (entity->name.compare(itemName)) {
 				found = true;
 				foundItems.push_back((Item*)entity);
 				break;
@@ -76,6 +76,8 @@ bool Player::Craft(CraftableItem* craftableItem) {
 			childEntities.remove(item);
 		}
 		childEntities.push_back(craftableItem);
+		string message = craftableItem->name + " crafted and added to the inventory"s;
+		Globals::printMessage(message);
 	}
 	return crafted;
 }
@@ -91,6 +93,27 @@ bool Player::Look(Entity* entity) {
 }
 
 bool Player::Eat(Item* item) {
+	bool found = false;
+	for (Entity* iter : childEntities) {
+		if (iter->name == item->name) {
+			found = true;
+			break;
+		}
+	}
+	if ((found) && (item->iType == FOOD)){
+		childEntities.remove((Entity*)item);
+		Globals::printMessage("Nom nom nom! Delicious!"s);
+	}
+	return found;
+}
 
-	return true;
+void Player::Inventory() {
+	if (childEntities.empty() == false) {
+		for (Entity* iter : childEntities) {
+			Globals::printMessage(iter->name);
+		}
+	}
+	else {
+		Globals::printMessage("You have no items!");
+	}
 }

@@ -21,10 +21,38 @@ World::World()
 	Exit* forestToClearing = new Exit("Forest to clearing"s, ""s, forest, clearing, WEST);
 
 	
-	
 	Creature* monster = new Creature("Smilodon"s, "The Saber-toothed cat"s, end);
+
 	player = new Player("The Lost Hunter"s, ""s, cliff);
-	player->Look(NULL);
+
+	Item* berry = new Item("Berry"s, "good food"s, FOOD);
+
+	Item* branch = new Item("Branch"s, "good food"s, FOOD);
+	Item* flint = new Item("Flint"s, "good food"s, FOOD);
+	Item* vine = new Item("Vine"s, "good food"s, FOOD);
+
+	list<string> spearList;
+	spearList.push_back(branch->name);
+	spearList.push_back(flint->name);
+	spearList.push_back(vine->name);
+
+	cliff->AddItem(branch);
+	cliff->AddItem(flint);
+	cliff->AddItem(vine);
+
+
+	CraftableItem* spear = new CraftableItem("Spear"s, "good to kill"s, WEAPON, spearList);
+
+	cliff->AddItem(berry);
+	player->Take(berry);
+	player->Inventory();
+	player->Eat(berry);
+	player->Inventory();
+	player->Craft(spear);
+	player->Take(branch);
+	player->Take(flint);
+	player->Take(vine);
+	player->Craft(spear);
 }
 
 World::~World()

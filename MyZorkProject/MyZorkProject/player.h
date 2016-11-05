@@ -23,6 +23,7 @@ public:
 	bool Craft(CraftableItem * item);
 	bool Look(Entity* entity);
 	bool Eat(Item* item);
+	void Inventory();
 };
 
 #endif
