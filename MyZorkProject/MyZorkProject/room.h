@@ -3,20 +3,20 @@
 
 #include <list>
 #include "entity.h"
-#include "exit.h"
 #include "globals.h"
 
-
 using namespace std;
+
+class Exit;
 
 class Room :
 	public Entity
 {
 public:
-	//list<Exit*> childExits;
+	list<Exit*> childExits;
 	Room(const string name, const string description);
 	virtual ~Room();
-	bool AddExit(Exit * exit);
+	bool AddExit(Exit* exit);
 	Room* GetAvaliableRoomFromDirection(Direction direction);
 };
 

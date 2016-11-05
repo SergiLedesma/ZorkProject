@@ -2,9 +2,10 @@
 #define __Creature__
 
 #include "entity.h"
-#include "room.h"
 
 using namespace std;
+
+class Room;
 
 class Creature :
 	public Entity

@@ -1,11 +1,12 @@
 #include "room.h"
+#include "exit.h"
 
 
 
 Room::Room(const string name, const string description) : Entity(name, description)
 {
 	type = ROOM;
-	//childExits = {};
+	childExits = {};
 }
 
 
@@ -15,13 +16,13 @@ Room::~Room()
 
 
 bool Room::AddExit(Exit* exit) {
-	//childExits.push_back(exit);
+	childExits.push_back(exit);
 	return true;
 }
 
 Room* Room::GetAvaliableRoomFromDirection(Direction direction) {
 	Room* result = NULL;
-	/*
+	
 	for (Exit* iter : childExits) {
 		if (iter->origin == this && direction == iter->direction) {
 			result = iter->destination;
@@ -32,6 +33,6 @@ Room* Room::GetAvaliableRoomFromDirection(Direction direction) {
 			break;
 		}
 	}
-	*/
+	
 	return result;
 }

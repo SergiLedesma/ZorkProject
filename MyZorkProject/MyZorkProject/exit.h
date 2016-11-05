@@ -3,10 +3,11 @@
 
 #include <string>
 #include "entity.h"
-#include "room.h"
 #include "globals.h"
 
 using namespace std;
+
+class Room;
 
 class Exit :
 	public Entity
