@@ -10,6 +10,7 @@
 #include "craftableItem.h"
 
 using namespace std;
+using namespace Globals;
 
 class Player :
 	public Creature

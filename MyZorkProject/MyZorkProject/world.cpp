@@ -87,7 +87,7 @@ bool World::ParseInput(const string& input) {
 
 	switch (numberOfWords) {
 		case 1:
-			if (input.compare("look") == 0) {
+			if (Globals::compareString(input, "look")) {
 				
 			}
 			break;

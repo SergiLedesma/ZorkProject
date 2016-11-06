@@ -16,10 +16,10 @@ enum Direction { //Create pairs of directions
 };
 
 
-class Globals {
-	public:
-		static void printMessage(string message);
-		static void printMessage(string message, string message2);
+namespace Globals {
+	void printMessage(string message);
+	void printMessage(string message, string message2);
+	bool compareString(string first, string second);
 };
 
 #endif
