@@ -3,16 +3,20 @@
 
 #include <string>
 #include "player.h"
+#include "globals.h"
 
 using namespace std;
 
 class Command
 {
 public:
-	Command();
+	Command(list<string> names, Action action, int numberOfArguments);
 	virtual ~Command();
-	string inputCommand;
-	string abbreviation;
+	int CountWords(const string & input);
+	bool IsCommand(const string & input);
+	list<string> names;
+	Action action;
+	int numberOfArguments;
 };
 
 #endif

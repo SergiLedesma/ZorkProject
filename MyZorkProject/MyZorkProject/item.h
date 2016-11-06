@@ -11,7 +11,8 @@ enum ItemType
 {
 	FOOD,
 	MATERIAL,
-	WEAPON
+	WEAPON,
+	STATIC
 };
 
 class Item :

@@ -15,6 +15,16 @@ enum Direction { //Create pairs of directions
 	DOWN = -3
 };
 
+enum Action {
+	GO,
+	TAKE,
+	DROP,
+	CRAFT,
+	LOOK,
+	EAT,
+	INVENTORY
+};
+
 
 namespace Globals {
 	void printMessage(string message);

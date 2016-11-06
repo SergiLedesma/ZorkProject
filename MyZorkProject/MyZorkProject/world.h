@@ -19,11 +19,12 @@ class World
 public:
 	World();
 	virtual ~World();
-	int CountWords(const string& input);
 	bool ParseInput(const string& input);
+	Command * GetCommand(const string& input);
 
 private:
 	Player* player;
+	list<Command*> commands;
 };
 
 #endif

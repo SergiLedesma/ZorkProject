@@ -148,8 +148,9 @@ bool Player::Eat(Item* item) {
 
 void Player::Inventory() {
 	if (childEntities.empty() == false) {
+		printMessage("Inventory:");
 		for (Entity* iter : childEntities) {
-			printMessage(iter->name);
+			printMessage("- " + iter->name);
 		}
 	}
 	else {
