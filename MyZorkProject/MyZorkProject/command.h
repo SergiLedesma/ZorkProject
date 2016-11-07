@@ -14,6 +14,7 @@ public:
 	virtual ~Command();
 	int CountWords(const string & input);
 	bool IsCommand(const string & input);
+	string GetArguments(const string & input);
 	list<string> names;
 	Action action;
 	int numberOfArguments;

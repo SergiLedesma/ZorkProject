@@ -53,12 +53,14 @@ World::World()
 	cliff->AddItem(vine);
 	cliff->AddItem(berry);
 
-	CraftableItem* spear = new CraftableItem("Spear"s, "good to kill"s, WEAPON, spearList);
+	CraftableItem* spear = new CraftableItem("Spear"s, "long and sharp weapon"s, WEAPON, spearList);
+
+	interactables = {berry, branch, flint, vine, wallPainting, spear};
 
 	player->Look(wallPainting);
 	player->Take(berry);
 	player->Inventory();
-	player->Eat(berry);
+	//player->Eat(berry);
 	player->Inventory();
 	player->Craft(spear);
 	player->Take(branch);
@@ -77,26 +79,32 @@ World::~World()
 
 bool World::ParseInput(const string& input) {
 
+	Command* command;
+	string args;
+
 	if (input.size() == 0) {
 		return false;
 	}
 
-	
+	command = GetCommand(input);
 
-	GetCommand(input);
+	args = command->GetArguments(input);
 
-	/*switch (numberOfWords) {
-		case 1:
-			if (Globals::compareString(input, "look")) {
-				
+	switch (command->action) {
+		case LOOK:
+			if (args.empty()) {
+				player->Look(NULL);
 			}
-			break;
-		case 2:
-			cout << "case 2";
-			break;
-		default:
-			return false;
-	}*/
+			else {
+				for (Entity* element : interactables) {
+					if (compareString(args, element->name)) {
+						player->Look(element);
+						break;
+					}
+				}
+			}
+	}
+
 
 	return true;
 }
@@ -109,5 +117,7 @@ Command* World::GetCommand(const string& input) {
 			break;
 		}
 	}
+	
+
 	return cmd;
 }

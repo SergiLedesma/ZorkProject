@@ -25,6 +25,7 @@ public:
 private:
 	Player* player;
 	list<Command*> commands;
+	list<Entity*> interactables;
 };
 
 #endif
