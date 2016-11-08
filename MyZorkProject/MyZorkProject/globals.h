@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include <string>
+#include <array>
 
 using namespace std;
 
 enum Direction { //Create pairs of directions
+	NOWHERE = 0,
 	NORTH = 1,
 	SOUTH = -1,
 	EAST = 2,
@@ -15,6 +17,8 @@ enum Direction { //Create pairs of directions
 	DOWN = -3
 };
 
+extern array<Direction, 6> directionStrings;
+
 enum Action {
 	GO,
 	TAKE,
@@ -22,7 +26,9 @@ enum Action {
 	CRAFT,
 	LOOK,
 	EAT,
-	INVENTORY
+	INVENTORY,
+	NONE,
+	QUIT
 };
 
 
@@ -30,6 +36,7 @@ namespace Globals {
 	void printMessage(string message);
 	void printMessage(string message, string message2);
 	bool compareString(string first, string second);
+	bool compareString(string first, Direction direction);
 };
 
 #endif

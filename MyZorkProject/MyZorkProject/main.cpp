@@ -8,11 +8,20 @@ using namespace std;
 int main() {
 	string playerInput;
 	World myWorld;
+	Action action;
+	bool end = false;
 
 	cout << "Welcome to my game\n";
-	getline(cin, playerInput);
 
-	myWorld.ParseInput(playerInput);
+	while (end == false) {
+		getline(cin, playerInput);
 
-	cin >> playerInput;
+		action = myWorld.ParseInput(playerInput);
+
+		if (action == QUIT) {
+			end = true;
+		}
+	}
+
+	
 }

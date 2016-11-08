@@ -10,10 +10,14 @@ Player::~Player()
 }
 
 bool Player::Go(Direction direction) {
+	if (direction == NOWHERE) {
+		printMessage("You didn't say which direction you want to go to.");
+		return false;
+	}
 	Room* nextRoom = room->GetAvaliableRoomFromDirection(direction);
 	if (nextRoom != NULL) {
 		room = nextRoom;
-		printMessage("You're now in "s + room->name, room->description);
+		Look(NULL);
 		return true;
 	}
 	printMessage("You can't go that way.");
@@ -21,11 +25,21 @@ bool Player::Go(Direction direction) {
 }
 
 bool Player::Take(Item* item) {
+	if (item == NULL) {
+		printMessage("You didn't say what you want to take.");
+		return false;
+	}
 	bool found = false;
 	for (Entity* iter : room->childEntities) {
 		if (compareString(iter->name, item->name)) {
-			found = true;
-			break;
+			if (item->iType != STATIC) {
+				found = true;
+				break;
+			}
+			else {
+				printMessage("You can't take that!");
+				return false;
+			}
 		}
 	}
 	if (found) {
@@ -40,11 +54,16 @@ bool Player::Take(Item* item) {
 }
 
 bool Player::Drop(Item* item) {
+	if (item == NULL) {
+		printMessage("You didn't say what you want to drop.");
+	}
 	bool found = false;
 	for (Entity* iter : childEntities) {
 		if (compareString(iter->name, item->name)) {
-			found = true;
-			break;
+			if (item->iType != STATIC) {
+				found = true;
+				break;
+			}
 		}
 	}
 	if (found) {
@@ -59,6 +78,9 @@ bool Player::Drop(Item* item) {
 }
 
 bool Player::Craft(CraftableItem* craftableItem) {
+	if (craftableItem == NULL) {
+		printMessage("You didn't say what you want to craft.");
+	}
 	bool found;
 	bool crafted = true;
 	list<Item*> foundItems;
@@ -94,9 +116,19 @@ bool Player::Look(Entity* entity) {
 	bool found = false;
 	if (entity == NULL) {
 		printMessage(room->name,room->description);
+		if (room->childEntities.empty() == false) {
+			printMessage("In this place you can see:");
+			for (Entity* object : room->childEntities) {
+				string obj = object->name;
+				obj[0] = (char)tolower(object->name[0]);
+				printMessage("A " + obj);
+			}
+		}
+		return true;
 	}
 	else if (compareString(entity->name, "player"s)) {
 		printMessage(description);
+		return true;
 	}
 	else {
 		for (Entity* iter : childEntities) {

@@ -19,7 +19,7 @@ class World
 public:
 	World();
 	virtual ~World();
-	bool ParseInput(const string& input);
+	Action ParseInput(const string& input);
 	Command * GetCommand(const string& input);
 
 private:
