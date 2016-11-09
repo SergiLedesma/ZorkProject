@@ -1,45 +1,10 @@
 #include <iostream>
 #include <string>
-#include <fstream>
 #include "world.h"
-#include "json11.hpp"
 
-using namespace json11;
 
 World::World()
 {
-	string jsonContentString;
-	ifstream myfile("json_data/rooms.json");
-	if (myfile.is_open())
-	{
-		string line;
-		while (myfile.good())
-		{
-			getline(myfile, line);
-			jsonContentString.append(line);
-			//cout << line << endl;
-		}
-		myfile.close();
-	}
-
-	string err;
-	Json jsonObj = Json::parse(jsonContentString, err);
-	list<Room*> rooms;
-	for (auto item : jsonObj.array_items()) {
-		Room* room = new Room("", "");
-		for (auto propertyValue : item.object_items()) {
-			if (propertyValue.first == "name") {
-				room->name = propertyValue.second.string_value();
-			}
-			if (propertyValue.first == "description") {
-				room->description = propertyValue.second.string_value();
-			}
-		}
-		printMessage(room->name, room->description);
-	}
-
-
-
 	commands = {
 		new Command({ "look", "l" }, LOOK, 1),
 		new Command({ "go", "g" }, GO, 1),
@@ -69,10 +34,7 @@ World::World()
 	Exit* forestToClearing = new Exit("Forest to clearing"s, ""s, forest, clearing, WEST);
 	Exit* forestToWellEntrance = new Exit("Forest to well entrance"s, ""s, forest, wellEntrance, SOUTH);
 	Exit* wellEntranceToDownTheWell = new Exit("Well entrance to down the well"s, ""s, wellEntrance, downTheWell, DOWN);
-	
-	
 
-	
 	Creature* monster = new Creature("Smilodon"s, "The Saber-toothed cat"s, end);
 
 	player = new Player("Player"s, "You're a lost hunter and you have to find the way back to your village."s, cliff);
@@ -101,7 +63,7 @@ World::World()
 	CraftableItem* spear = new CraftableItem("Spear"s, "long and sharp weapon"s, WEAPON, spearReceipe);
 
 	interactables = {player, berry, branch, flint, vine, meat, wallPainting, spear};
-	
+
 }
 
 World::~World()

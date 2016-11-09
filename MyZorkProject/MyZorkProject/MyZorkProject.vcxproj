@@ -75,10 +75,6 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
-    <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -121,7 +117,6 @@
     <ClCompile Include="exit.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="item.cpp" />
-    <ClCompile Include="json11.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="room.cpp" />
@@ -135,18 +130,9 @@
     <ClInclude Include="exit.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="item.h" />
-    <ClInclude Include="json11.hpp" />
     <ClInclude Include="player.h" />
     <ClInclude Include="room.h" />
     <ClInclude Include="world.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="json_data\exits.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="json_data\rooms.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
