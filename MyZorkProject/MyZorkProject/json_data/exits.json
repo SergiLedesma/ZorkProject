@@ -1,0 +1,66 @@
+[
+  {
+    "id": "cliffToPath",
+    "name": "Cliff to path",
+    "description": "",
+    "origin": "cliff",
+    "destination": "path",
+    "direction": 1
+  },
+  {
+    "id": "pathToEnd",
+    "name": "Path to end",
+    "description": "",
+    "origin": "path",
+    "destination": "end",
+    "direction": 1
+  },
+  {
+    "id": "cliffToCave",
+    "name": "Cave entrance",
+    "description": "",
+    "origin": "cliff",
+    "destination": "cave",
+    "direction": 2
+  },
+  {
+    "id": "cliffToForest",
+    "name": "Cliff to forest",
+    "description": "",
+    "origin": "cliff",
+    "destination": "forest",
+    "direction": -2
+  },
+  {
+    "id": "forestToTree",
+    "name": "Forest to tree",
+    "description": "",
+    "origin": "forest",
+    "destination": "upTheTree",
+    "direction": 3
+  },
+  {
+    "id": "forestToClearing",
+    "name": "Forest to clearing",
+    "description": "",
+    "origin": "forest",
+    "destination": "clearing",
+    "direction": -2
+  },
+  {
+    "id": "forestToWellEntrance",
+    "name": "Forest to well entrance",
+    "description": "",
+    "origin": "forest",
+    "destination": "wellEntrance",
+    "direction": -1
+  },
+  {
+    "id": "wellEntranceToDownTheWell",
+    "name": "Well entrance to down the well",
+    "description": "",
+    "origin": "wellEntrance",
+    "destination": "downTheWell",
+    "direction": -3
+  }
+]
