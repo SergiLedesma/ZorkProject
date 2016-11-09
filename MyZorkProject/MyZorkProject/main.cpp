@@ -11,7 +11,7 @@ int main() {
 	Action action;
 	bool end = false;
 
-	cout << "Welcome to my game\n";
+	printMessage("10.000 BC. You wake up at the base of a high cliff. After going hunting with your tribe you felt down, and lost all your equipment. You've probably been unconscious for a few hours. Explore your surroundings and find a way to get back home.");
 
 	while (end == false) {
 		getline(cin, playerInput);
