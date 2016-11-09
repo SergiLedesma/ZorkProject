@@ -16,7 +16,7 @@ World::World()
 		new Command({ "quit", "q", "exit" }, QUIT, 1),
 	};
 	
-	Room* cliff = new Room("Base of the cliff"s, "You're in the north wall of a big mountain. You can see three paths, one on each direction. In the wall behind you there's a painting."s);
+	Room* cliff = new Room("Base of the cliff"s, "You're in the north wall of a big mountain. You can see three paths, one on each direction."s);
 	Room* cave = new Room("Cave"s, "You're inside a small and cold cave. It's a dead end."s);
 	Room* forest = new Room("Forest"s, "This is a dense forest. There's a high tree with some branches you can reach."s);
 	Room* upTheTree = new Room("Up the tree"s, "After climbing over 5 meters you've reached the top of the tree. From here you can see your camp at the far north."s);
@@ -64,6 +64,9 @@ World::World()
 
 	interactables = {player, berry, branch, flint, vine, meat, wallPainting, spear};
 
+	printMessage("Welcom to Tribal Zork!");
+	printMessage("10.000 BC. You wake up at the base of a high cliff. After going hunting with your tribe you felt down, and lost all your equipment. You've probably been unconscious for a few hours. Explore your surroundings and find a way to get back home.");
+	player->Look(NULL);
 }
 
 World::~World()
@@ -243,6 +246,7 @@ Action World::ParseInput(const string& input) {
 			player->Inventory();
 			break;
 		case QUIT:
+			break;
 		default: 
 			return NONE;
 	}

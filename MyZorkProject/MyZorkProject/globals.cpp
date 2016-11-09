@@ -32,7 +32,7 @@ namespace Globals {
 		return equals;
 	}
 
-	bool compareString(string first, Direction direction) {
+	bool compareString(string first, const Direction direction) {
 		bool equals = true;
 		string second = "";
 		switch (direction) {

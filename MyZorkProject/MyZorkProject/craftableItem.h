@@ -8,8 +8,8 @@ class CraftableItem :
 	public Item
 {
 public:
-	list<string> neededItems;
-	CraftableItem(const string name, const string description, const ItemType iType, const list<string> neededItems);
+	list<string> receipe;
+	CraftableItem(const string name, const string description, const ItemType iType, const list<string> receipe);
 	virtual ~CraftableItem();
 };
 

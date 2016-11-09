@@ -10,7 +10,7 @@ using namespace std;
 class Command
 {
 public:
-	Command(list<string> names, Action action, int numberOfArguments);
+	Command(const list<string> names, const Action action, const int numberOfArguments);
 	virtual ~Command();
 	int CountWords(const string & input);
 	bool IsCommand(const string & input);

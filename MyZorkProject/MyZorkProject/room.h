@@ -19,7 +19,7 @@ public:
 	virtual ~Room();
 	bool AddExit(Exit* exit);
 	bool AddItem(Item* item);
-	Room* GetAvaliableRoomFromDirection(Direction direction);
+	Room* GetAvaliableRoomFromDirection(const Direction direction);
 };
 
 #endif

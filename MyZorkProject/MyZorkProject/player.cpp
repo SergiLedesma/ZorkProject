@@ -9,7 +9,7 @@ Player::~Player()
 {
 }
 
-MovementState Player::Go(Direction direction) {
+MovementState Player::Go(const Direction direction) {
 	if (direction == NOWHERE) {
 		printMessage("You didn't say which direction you want to go to.");
 		return NOTMOVING;
@@ -61,6 +61,7 @@ bool Player::Take(Item* item) {
 bool Player::Drop(Item* item) {
 	if (item == NULL) {
 		printMessage("You didn't say what you want to drop.");
+		return false;
 	}
 	bool found = false;
 	for (Entity* iter : childEntities) {
@@ -85,12 +86,13 @@ bool Player::Drop(Item* item) {
 bool Player::Craft(CraftableItem* craftableItem) {
 	if (craftableItem == NULL) {
 		printMessage("You didn't say what you want to craft.");
+		return false;
 	}
 	bool found;
 	bool crafted = true;
 	list<Item*> foundItems;
 
-	for (string itemName : craftableItem->neededItems) {
+	for (string itemName : craftableItem->receipe) {
 		found = false;
 		for (Entity* entity : childEntities) {
 			if (compareString(entity->name, itemName)) {
@@ -117,7 +119,7 @@ bool Player::Craft(CraftableItem* craftableItem) {
 	return crafted;
 }
 
-bool Player::Look(Entity* entity) {
+bool Player::Look(const Entity* entity) {
 	bool found = false;
 	if (entity == NULL) {
 		printMessage(room->name,room->description);
@@ -162,6 +164,10 @@ bool Player::Look(Entity* entity) {
 
 bool Player::Eat(Item* item) {
 	bool found = false;
+	if (item == NULL) {
+		printMessage("You didn't say what you want to eat.");
+		return false;
+	}
 	for (Entity* iter : childEntities) {
 		if (compareString(iter->name, item->name)) {
 			found = true;
@@ -178,7 +184,7 @@ bool Player::Eat(Item* item) {
 		}
 	}
 	else {
-		printMessage("You don't have that."s);
+		printMessage("That's not in your inventory."s);
 	}
 	return found;
 }
@@ -191,6 +197,6 @@ void Player::Inventory() {
 		}
 	}
 	else {
-		printMessage("You have no items!");
+		printMessage("You have no items.");
 	}
 }

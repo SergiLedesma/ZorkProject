@@ -24,11 +24,11 @@ class Player :
 public:
 	Player(const string name, const string description, Room * room);
 	virtual ~Player();
-	MovementState Go(Direction direction);
+	MovementState Go(const Direction direction);
 	bool Take(Item* item);
 	bool Drop(Item* item);
-	bool Craft(CraftableItem * item);
-	bool Look(Entity* entity);
+	bool Craft(CraftableItem* item);
+	bool Look(const Entity* entity);
 	bool Eat(Item* item);
 	void Inventory();
 };

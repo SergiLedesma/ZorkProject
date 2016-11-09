@@ -11,22 +11,22 @@ int main() {
 	Action action;
 	bool end = false;
 
-	printMessage("10.000 BC. You wake up at the base of a high cliff. After going hunting with your tribe you felt down, and lost all your equipment. You've probably been unconscious for a few hours. Explore your surroundings and find a way to get back home.");
-
+	
 	while (end == false) {
 		getline(cin, playerInput);
 
 		action = myWorld.ParseInput(playerInput);
 
 		if (action == END) {
-			printMessage("YOU FINISHED AND ENDING FOR THE GAME!");
+			printMessage("------------------------");
+			printMessage("You have finished the game. Don't forget to look for other endings!", "I hope you enjoyed the experience.");
+			printMessage("By: Sergi Ledesma", "Contact: sergi.dev@gmail.com");
+			printMessage("Check out the full project at https://github.com/SergiLedesma");
 			getline(cin, playerInput);
 			end = true;
 		}
-		if (action == QUIT) {
+		else if (action == QUIT) {
 			end = true;
 		}
 	}
-
-	
 }

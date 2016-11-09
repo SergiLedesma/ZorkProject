@@ -17,7 +17,7 @@ public:
 	Room* destination;
 	Direction direction;
 
-	Exit(const string name, const string description, Room* origin, Room* destination, Direction direction);
+	Exit(const string name, const string description, Room* origin, Room* destination, const Direction direction);
 	virtual ~Exit();
 };
 

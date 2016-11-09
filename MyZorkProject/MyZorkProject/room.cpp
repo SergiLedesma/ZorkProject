@@ -25,7 +25,7 @@ bool Room::AddItem(Item* item) {
 	return true;
 }
 
-Room* Room::GetAvaliableRoomFromDirection(Direction direction) {
+Room* Room::GetAvaliableRoomFromDirection(const Direction direction) {
 	Room* result = NULL;
 	
 	for (Exit* iter : childExits) {

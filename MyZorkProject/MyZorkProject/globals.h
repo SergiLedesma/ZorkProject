@@ -37,7 +37,7 @@ namespace Globals {
 	void printMessage(string message);
 	void printMessage(string message, string message2);
 	bool compareString(string first, string second);
-	bool compareString(string first, Direction direction);
+	bool compareString(string first, const Direction direction);
 };
 
 #endif

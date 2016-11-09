@@ -2,7 +2,7 @@
 
 
 
-Command::Command(list<string> names, Action action, int numberOfArguments) :
+Command::Command(const list<string> names, const Action action, const int numberOfArguments) :
 	names(names), action(action), numberOfArguments(numberOfArguments)
 {
 
@@ -35,7 +35,7 @@ int Command::CountWords(const string& input) {
 bool Command::IsCommand(const string &input) {
 	bool found = false;
 	for (string iter : names) {
-		if (compareString(input.substr(0, iter.size()), (iter))) {
+		if (compareString(input.substr(0, iter.size()), iter)) {
 			found = true;
 			break;
 		}

@@ -3,7 +3,7 @@
 
 
 
-Exit::Exit(const string name, const string description, Room* origin, Room* destination, Direction direction) :
+Exit::Exit(const string name, const string description, Room* origin, Room* destination, const Direction direction) :
 	Entity(name, description), direction(direction), origin(origin), destination(destination)
 {
 	type = EXIT;

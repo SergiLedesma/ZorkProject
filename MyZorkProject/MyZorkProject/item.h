@@ -22,7 +22,6 @@ class Item :
 public:
 	Item(const string name, const string description, const ItemType iType);
 	virtual ~Item();
-
 	ItemType iType;
 };
 

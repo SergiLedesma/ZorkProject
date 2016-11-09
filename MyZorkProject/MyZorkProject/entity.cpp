@@ -14,7 +14,7 @@ Entity::Entity(const string name, const string description, Entity* parent) :
 
 Entity::Entity(const string name, const string description) : Entity(name, description, NULL)
 {
-
+	type = ENTITY;
 }
 
 Entity::~Entity()
