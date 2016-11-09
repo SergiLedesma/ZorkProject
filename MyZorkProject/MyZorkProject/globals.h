@@ -28,6 +28,7 @@ enum Action {
 	EAT,
 	INVENTORY,
 	NONE,
+	END,
 	QUIT
 };
 

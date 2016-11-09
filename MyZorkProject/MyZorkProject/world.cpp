@@ -21,6 +21,8 @@ World::World()
 	Room* forest = new Room("Forest"s, "This is a dense forest. There's a high tree with some branches you can reach."s);
 	Room* upTheTree = new Room("Up the tree"s, "After climbing over 5 meters you've reached the top of the tree. From here you can see your camp at the far north."s);
 	Room* clearing = new Room("Clearing"s, "You're in a clearing with a forest surrounding you in all directions but east."s);
+	Room* wellEntrance = new Room("Well entrance"s, "You're in a clearing with a natural well big enough for a person to go through."s);
+	Room* downTheWell = new Room("Inside the well"s, "It's dark and cold in here. A dead and decayed animal rests on the floor. It probably died from the fall."s);
 	Room* path = new Room("Narrow path"s, "It's a very tight path between two mountain walls. You can see ahead some creature's lair, it looks dangerous!"s);
 	Room* end = new Room("Smilodon's lair"s, "You face Smilodon: The Saber-toothed cat."s);
 
@@ -30,6 +32,8 @@ World::World()
 	Exit* cliffToForest = new Exit("Cliff to forest"s, ""s, cliff, forest, WEST);
 	Exit* forestToTree = new Exit("Forest to tree"s, ""s, forest, upTheTree, UP);
 	Exit* forestToClearing = new Exit("Forest to clearing"s, ""s, forest, clearing, WEST);
+	Exit* forestToWellEntrance = new Exit("Forest to well entrance"s, ""s, forest, wellEntrance, SOUTH);
+	Exit* wellEntranceToDownTheWell = new Exit("Well entrance to down the well"s, ""s, wellEntrance, downTheWell, DOWN);
 
 	Creature* monster = new Creature("Smilodon"s, "The Saber-toothed cat"s, end);
 
@@ -39,24 +43,26 @@ World::World()
 
 	Item* berry = new Item("Berry"s, "Red, small and juicy fruit."s, FOOD);
 
+	Item* meat = new Item("Meat"s, "Some dead creature's spoiled meat. It looks rotten."s, COMMON);
 	Item* branch = new Item("Branch"s, "A long tree limb."s, MATERIAL);
 	Item* flint = new Item("Flint"s, "A small piece of sharp flint."s, MATERIAL);
 	Item* vine = new Item("Vine"s, "A long string, it could be used as a rope."s, MATERIAL);
 
-	list<string> spearList;
-	spearList.push_back(branch->name);
-	spearList.push_back(flint->name);
-	spearList.push_back(vine->name);
+	list<string> spearReceipe;
+	spearReceipe.push_back(branch->name);
+	spearReceipe.push_back(flint->name);
+	spearReceipe.push_back(vine->name);
 
 	cliff->AddItem(wallPainting);
 	clearing->AddItem(branch);
 	cave->AddItem(flint);
 	upTheTree->AddItem(vine);
 	forest->AddItem(berry);
+	downTheWell->AddItem(meat);
 
-	CraftableItem* spear = new CraftableItem("Spear"s, "long and sharp weapon"s, WEAPON, spearList);
+	CraftableItem* spear = new CraftableItem("Spear"s, "long and sharp weapon"s, WEAPON, spearReceipe);
 
-	interactables = {player, berry, branch, flint, vine, wallPainting, spear};
+	interactables = {player, berry, branch, flint, vine, meat, wallPainting, spear};
 
 }
 
@@ -68,6 +74,7 @@ Action World::ParseInput(const string& input) {
 
 	Command* command;
 	string args;
+	MovementState movementState;
 	bool found = false;
 
 	if (input.size() == 0) {
@@ -102,19 +109,46 @@ Action World::ParseInput(const string& input) {
 			break;
 		case GO:
 			if (args.empty()) {
-				player->Go(NOWHERE);
+				movementState = player->Go(NOWHERE);
 			}
 			else {
 				for (Direction direction : directionStrings) {
 					if (compareString(args, direction)) {
-						player->Go(direction);
+						movementState = player->Go(direction);
 						found = true;
 						break;
 					}
 				}
 				if (!found) {
 					printMessage("I didn't understand where you want to go.");
+					movementState = NOTMOVING;
 				}
+			}
+			if (movementState == ENDING) {
+				bool gotSpear = false;
+				bool gotMeat = false;
+				
+				for (Entity* item : player->childEntities) {
+					if (compareString(item->name, "Spear")) {
+						gotSpear = true;
+					}
+					else if (compareString(item->name, "Meat")) {
+						gotMeat = true;
+					}
+				}
+				if (gotMeat && gotSpear) {
+					printMessage("You throw the spoiled meat to distract the creature and attack him from behind. After killing the great Smilodon you go north and find your way back to your village.");
+				}
+				else if (gotMeat) {
+					printMessage("You distract the creature with the meat for a while, but he ends up catching you and you die eaten by the great beast.");
+				}
+				else if (gotSpear) {
+					printMessage("You fight with the great creature. The Smilodon jumps to you while you stab him with your spear. You killed him, but you also end up dying from the wounds");
+				}
+				else {
+					printMessage("With nothing to kill nor distract the beast it crushes you in a heartbeat.");
+				}
+				command->action = END;
 			}
 			break;
 		case TAKE:

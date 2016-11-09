@@ -12,6 +12,7 @@ enum ItemType
 	FOOD,
 	MATERIAL,
 	WEAPON,
+	COMMON,
 	STATIC
 };
 

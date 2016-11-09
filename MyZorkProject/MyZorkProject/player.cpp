@@ -9,19 +9,24 @@ Player::~Player()
 {
 }
 
-bool Player::Go(Direction direction) {
+MovementState Player::Go(Direction direction) {
 	if (direction == NOWHERE) {
 		printMessage("You didn't say which direction you want to go to.");
-		return false;
+		return NOTMOVING;
 	}
 	Room* nextRoom = room->GetAvaliableRoomFromDirection(direction);
 	if (nextRoom != NULL) {
 		room = nextRoom;
 		Look(NULL);
-		return true;
+		if (compareString(room->name, "Smilodon's lair"s)) {
+			return ENDING;
+		}
+		else {
+			return MOVING;
+		}
 	}
 	printMessage("You can't go that way.");
-	return false;
+	return NOTMOVING;
 }
 
 bool Player::Take(Item* item) {

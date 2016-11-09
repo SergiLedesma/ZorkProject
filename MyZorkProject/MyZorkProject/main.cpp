@@ -18,6 +18,11 @@ int main() {
 
 		action = myWorld.ParseInput(playerInput);
 
+		if (action == END) {
+			printMessage("YOU FINISHED AND ENDING FOR THE GAME!");
+			getline(cin, playerInput);
+			end = true;
+		}
 		if (action == QUIT) {
 			end = true;
 		}

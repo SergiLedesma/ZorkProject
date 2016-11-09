@@ -12,13 +12,19 @@
 using namespace std;
 using namespace Globals;
 
+enum MovementState {
+	NOTMOVING,
+	MOVING,
+	ENDING
+};
+
 class Player :
 	public Creature
 {
 public:
 	Player(const string name, const string description, Room * room);
 	virtual ~Player();
-	bool Go(Direction direction);
+	MovementState Go(Direction direction);
 	bool Take(Item* item);
 	bool Drop(Item* item);
 	bool Craft(CraftableItem * item);
