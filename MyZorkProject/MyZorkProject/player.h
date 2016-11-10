@@ -31,6 +31,8 @@ public:
 	bool Look(const Entity* entity);
 	bool Eat(Item* item);
 	void Inventory();
+	bool Open(Item* item);
+	bool Put(Item* item, Item* container);
 };
 
 #endif

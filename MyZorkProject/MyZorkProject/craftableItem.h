@@ -9,7 +9,7 @@ class CraftableItem :
 {
 public:
 	list<string> receipe;
-	CraftableItem(const string name, const string description, const ItemType iType, const list<string> receipe);
+	CraftableItem(const string name, const string description, Entity* parent, const ItemType iType, const list<string> receipe);
 	virtual ~CraftableItem();
 };
 

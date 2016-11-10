@@ -200,3 +200,70 @@ void Player::Inventory() {
 		printMessage("You have no items.");
 	}
 }
+
+bool Player::Open(Item * item)
+{
+	bool found = false;
+	if (item == NULL) {
+		printMessage("You didn't say what you want to open.");
+		return false;
+	}
+	for (Entity* iter : childEntities) {
+		if (compareString(iter->name, item->name)) {
+			found = true;
+			break;
+		}
+	}
+	if (found) {
+		if (item->iType == CONTAINER) {
+			if (item->childEntities.empty() == false) {
+				printMessage("You open the "s + item->name + " and all of its content rests now on the floor:"s);
+				for (Entity* contained : item->childEntities) {
+					printMessage(contained->name);
+					contained->parent = NULL;
+					room->AddItem((Item*)contained);
+				}
+				item->childEntities.clear();
+			}
+			else {
+				printMessage("The " + item->name + " is empty.");
+			}
+		}
+			
+		else {
+			printMessage("You could not open that."s);
+		}
+		
+	}
+	else {
+		printMessage("That's not in your inventory."s);
+	}
+	return found;
+}
+
+bool Player::Put(Item * item, Item * container)
+{
+	bool itemFound = false;
+	bool containerFound = false;
+	if ((item == NULL) || (container == NULL)) {
+		printMessage("I didn't understand you.");
+		return false;
+	}
+	for (Entity* iter : childEntities) {
+		if (compareString(iter->name, item->name)) {
+			itemFound = true;
+		}
+		else if (compareString(iter->name, container->name) && container->iType == CONTAINER) {
+			containerFound = true;
+		}
+	}
+	if (itemFound && containerFound) {
+		item->ChangeParent(container);
+		childEntities.remove(item);
+		printMessage("Now "s + item->name + " is inside the "s + container->name + ".");
+	}
+	else {
+		printMessage("You don't have both items."s);
+	}
+	return false;
+}

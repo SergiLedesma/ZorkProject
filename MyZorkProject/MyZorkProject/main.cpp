@@ -28,5 +28,8 @@ int main() {
 		else if (action == QUIT) {
 			end = true;
 		}
+		else if (action == NONE) {
+			printMessage("You have to type something I can understand.");
+		}
 	}
 }

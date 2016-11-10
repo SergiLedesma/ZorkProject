@@ -27,6 +27,8 @@ enum Action {
 	LOOK,
 	EAT,
 	INVENTORY,
+	OPEN,
+	PUT,
 	NONE,
 	END,
 	QUIT

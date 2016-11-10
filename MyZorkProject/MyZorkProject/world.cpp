@@ -6,14 +6,16 @@
 World::World()
 {
 	commands = {
-		new Command({ "look", "l" }, LOOK, 1),
-		new Command({ "go", "g" }, GO, 1),
-		new Command({ "take", "pick", "get", "t" }, TAKE, 1),
-		new Command({ "drop", "d" }, DROP, 1),
-		new Command({ "craft", "c" }, CRAFT, 1),
-		new Command({ "eat", "e" }, EAT, 1),
-		new Command({ "inventory", "i" }, INVENTORY, 1),
-		new Command({ "quit", "q", "exit" }, QUIT, 1),
+		new Command({ "look" }, LOOK, 1),
+		new Command({ "go" }, GO, 1),
+		new Command({ "take", "pick", "get" }, TAKE, 1),
+		new Command({ "drop" }, DROP, 1),
+		new Command({ "craft" }, CRAFT, 1),
+		new Command({ "eat" }, EAT, 1),
+		new Command({ "inventory" }, INVENTORY, 1),
+		new Command({ "open" }, OPEN, 1),
+		new Command({ "put" }, PUT, 1),
+		new Command({ "quit", "exit" }, QUIT, 1),
 	};
 	
 	Room* cliff = new Room("Base of the cliff"s, "You're in the north wall of a big mountain. You can see three paths, one on each direction."s);
@@ -39,14 +41,15 @@ World::World()
 
 	player = new Player("Player"s, "You're a lost hunter and you have to find the way back to your village."s, cliff);
 
-	Item* wallPainting = new Item("Painting"s, "You can see a group of hunters with spears fighting a big mammoth."s, STATIC);
+	Item* wallPainting = new Item("Painting"s, "You can see a group of hunters with spears fighting a big mammoth."s, NULL, STATIC);
 
-	Item* berry = new Item("Berry"s, "Red, small and juicy fruit."s, FOOD);
+	Item* bag = new Item("Bag", "Small leather bag. It may contain something.", NULL, CONTAINER);
+	Item* berry = new Item("Berry"s, "Red, small and juicy fruit."s, bag, FOOD);
 
-	Item* meat = new Item("Meat"s, "Some dead creature's spoiled meat. It looks rotten."s, COMMON);
-	Item* branch = new Item("Branch"s, "A long tree limb."s, MATERIAL);
-	Item* flint = new Item("Flint"s, "A small piece of sharp flint."s, MATERIAL);
-	Item* vine = new Item("Vine"s, "A long string, it could be used as a rope."s, MATERIAL);
+	Item* meat = new Item("Meat"s, "Some dead creature's spoiled meat. It looks rotten."s, NULL, COMMON);
+	Item* branch = new Item("Branch"s, "A long tree limb."s, NULL, MATERIAL);
+	Item* flint = new Item("Flint"s, "A small piece of sharp flint."s, NULL, MATERIAL);
+	Item* vine = new Item("Vine"s, "A long string, it could be used as a rope."s, NULL, MATERIAL);
 
 	list<string> spearReceipe;
 	spearReceipe.push_back(branch->name);
@@ -57,16 +60,22 @@ World::World()
 	clearing->AddItem(branch);
 	cave->AddItem(flint);
 	upTheTree->AddItem(vine);
-	forest->AddItem(berry);
+	forest->AddItem(bag);
 	downTheWell->AddItem(meat);
 
-	CraftableItem* spear = new CraftableItem("Spear"s, "long and sharp weapon"s, WEAPON, spearReceipe);
+	CraftableItem* spear = new CraftableItem("Spear"s, "long and sharp weapon"s, NULL, WEAPON, spearReceipe);
 
-	interactables = {player, berry, branch, flint, vine, meat, wallPainting, spear};
+	interactables = {player, bag, berry, branch, flint, vine, meat, wallPainting, spear};
 
 	printMessage("Welcom to Tribal Zork!");
 	printMessage("10.000 BC. You wake up at the base of a high cliff. After going hunting with your tribe you felt down, and lost all your equipment. You've probably been unconscious for a few hours. Explore your surroundings and find a way to get back home.");
 	player->Look(NULL);
+
+	player->Go(WEST);
+	player->Take(bag);
+	player->Open(bag);
+	player->Take(berry);
+	player->Put(berry, bag);
 }
 
 World::~World()
@@ -99,7 +108,7 @@ Action World::ParseInput(const string& input) {
 			}
 			else {
 				for (Entity* element : interactables) {
-					if (compareString(args, element->name)) {
+					if (compareString(args, element->name) && element->parent == NULL) {
 						player->Look(element);
 						found = true;
 						break;
@@ -160,7 +169,7 @@ Action World::ParseInput(const string& input) {
 			}
 			else {
 				for (Entity* element : interactables) {
-					if (compareString(args, element->name)) {
+					if (compareString(args, element->name) && element->parent == NULL) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							player->Take(item);
 							found = true;
@@ -226,7 +235,7 @@ Action World::ParseInput(const string& input) {
 			}
 			else {
 				for (Entity* element : interactables) {
-					if (compareString(args, element->name)) {
+					if (compareString(args, element->name) && element->parent == NULL) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							player->Eat(item);
 							found = true;
@@ -245,12 +254,72 @@ Action World::ParseInput(const string& input) {
 		case INVENTORY:
 			player->Inventory();
 			break;
+		case OPEN:
+			if (args.empty()) {
+				player->Open(NULL);
+			}
+			else {
+				for (Entity* element : interactables) {
+					if (compareString(args, element->name) && element->parent == NULL) {
+						if (Item* item = dynamic_cast<Item*>(element)) {
+							player->Open(item);
+							found = true;
+							break;
+						}
+						else {
+							printMessage("You can't open that.");
+						}
+					}
+				}
+				if (!found) {
+					printMessage("This item does not exists.");
+				}
+			}
+			break;
+		case PUT:
+			if (args.empty()) {
+				player->Put(NULL, NULL);
+			}
+			else {
+				Item* first = NULL;
+				Item* second = NULL;
+				for (Entity* element : interactables) {
+					if (compareString(args.substr(0,element->name.size()), element->name) && element->parent == NULL) {
+						if (Item* item = dynamic_cast<Item*>(element)) {
+							first = item;
+							break;
+						}
+					}
+				}
+				if (first == NULL) {
+					printMessage("You don't have that first item");
+					break;
+				}
+				//Ignoring first item
+				args.erase(0, first->name.size());
+				//Ignoring " in "
+				args.erase(0, 4);
+				for (Entity* element : interactables) {
+					if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL) {
+						if (Item* item = dynamic_cast<Item*>(element)) {
+							second = item;
+							break;
+						}
+					}
+				}
+				if (first != NULL && second != NULL) {
+					player->Put(first, second);
+				}
+				else {
+					printMessage("You don't have that container.");
+				}
+			}
+			break;
 		case QUIT:
 			break;
 		default: 
 			return NONE;
 	}
-
 	return command->action;
 }
 

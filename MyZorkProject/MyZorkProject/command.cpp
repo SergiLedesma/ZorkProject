@@ -60,6 +60,12 @@ string Command::GetArguments(const string &input) {
 				break;
 			}
 		}
+		if (inputWordsCount == 4) {
+			if (compareString(input.substr(0, iter.size() + 1), (iter + " "))) {
+				arguments.erase(0, iter.size() + 1);
+				break;
+			}
+		}
 	}
 
 	return arguments;
