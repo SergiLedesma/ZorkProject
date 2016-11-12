@@ -217,11 +217,11 @@ bool Player::Open(Item * item)
 	if (found) {
 		if (item->iType == CONTAINER) {
 			if (item->childEntities.empty() == false) {
-				printMessage("You open the "s + item->name + " and all of its content rests now on the floor:"s);
+				printMessage("You open the "s + item->name + " and all of its content is added to your inventory:"s);
 				for (Entity* contained : item->childEntities) {
 					printMessage(contained->name);
 					contained->parent = NULL;
-					room->AddItem((Item*)contained);
+					childEntities.push_back(contained);
 				}
 				item->childEntities.clear();
 			}

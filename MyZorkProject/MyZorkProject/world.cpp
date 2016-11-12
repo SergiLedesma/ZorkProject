@@ -43,7 +43,7 @@ World::World()
 
 	Item* wallPainting = new Item("Painting"s, "You can see a group of hunters with spears fighting a big mammoth."s, NULL, STATIC);
 
-	Item* bag = new Item("Bag", "Small leather bag. It may contain something.", NULL, CONTAINER);
+	Item* bag = new Item("Bag", "Small leather bag. It may contain something...", NULL, CONTAINER);
 	Item* berry = new Item("Berry"s, "Red, small and juicy fruit."s, bag, FOOD);
 
 	Item* meat = new Item("Meat"s, "Some dead creature's spoiled meat. It looks rotten."s, NULL, COMMON);
@@ -70,12 +70,6 @@ World::World()
 	printMessage("Welcom to Tribal Zork!");
 	printMessage("10.000 BC. You wake up at the base of a high cliff. After going hunting with your tribe you felt down, and lost all your equipment. You've probably been unconscious for a few hours. Explore your surroundings and find a way to get back home.");
 	player->Look(NULL);
-
-	player->Go(WEST);
-	player->Take(bag);
-	player->Open(bag);
-	player->Take(berry);
-	player->Put(berry, bag);
 }
 
 World::~World()
