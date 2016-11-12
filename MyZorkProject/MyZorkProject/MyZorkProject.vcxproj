@@ -130,6 +130,7 @@
     <ClInclude Include="exit.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="memleaks.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="room.h" />
     <ClInclude Include="world.h" />

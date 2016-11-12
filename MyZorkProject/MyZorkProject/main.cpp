@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
 #include "world.h"
+#include "memleaks.h"
 
 using namespace std;
 
 
 int main() {
+	ReportMemoryLeaks();
 	string playerInput;
 	World myWorld;
 	Action action;

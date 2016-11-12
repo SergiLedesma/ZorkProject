@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "world.h"
+#include "memleaks.h"
 
 
 World::World()
@@ -28,6 +29,16 @@ World::World()
 	Room* path = new Room("Narrow path"s, "It's a very tight path between two mountain walls. You can see ahead some creature's lair, it looks dangerous!"s);
 	Room* end = new Room("Smilodon's lair"s, "You face Smilodon: The Saber-toothed cat."s);
 
+	worldEntities.push_back(cliff);
+	worldEntities.push_back(cave);
+	worldEntities.push_back(forest);
+	worldEntities.push_back(upTheTree);
+	worldEntities.push_back(clearing);
+	worldEntities.push_back(wellEntrance);
+	worldEntities.push_back(downTheWell);
+	worldEntities.push_back(path);
+	worldEntities.push_back(end);
+
 	Exit* cliffToPath = new Exit("Cliff to path"s, ""s, cliff, path, NORTH);
 	Exit* pathToEnd = new Exit("Path to end"s, ""s, path, end, NORTH);
 	Exit* cliffToCave = new Exit("Cave entrance"s, ""s, cliff, cave, EAST);
@@ -36,25 +47,46 @@ World::World()
 	Exit* forestToClearing = new Exit("Forest to clearing"s, ""s, forest, clearing, WEST);
 	Exit* forestToWellEntrance = new Exit("Forest to well entrance"s, ""s, forest, wellEntrance, SOUTH);
 	Exit* wellEntranceToDownTheWell = new Exit("Well entrance to down the well"s, ""s, wellEntrance, downTheWell, DOWN);
-
-	Creature* monster = new Creature("Smilodon"s, "The Saber-toothed cat"s, end);
-
-	player = new Player("Player"s, "You're a lost hunter and you have to find the way back to your village."s, cliff);
+	
+	worldEntities.push_back(cliffToPath);
+	worldEntities.push_back(pathToEnd);
+	worldEntities.push_back(cliffToCave);
+	worldEntities.push_back(cliffToForest);
+	worldEntities.push_back(forestToTree);
+	worldEntities.push_back(forestToClearing);
+	worldEntities.push_back(forestToWellEntrance);
+	worldEntities.push_back(wellEntranceToDownTheWell);
 
 	Item* wallPainting = new Item("Painting"s, "You can see a group of hunters with spears fighting a big mammoth."s, NULL, STATIC);
-
 	Item* bag = new Item("Bag", "Small leather bag. It may contain something...", NULL, CONTAINER);
 	Item* berry = new Item("Berry"s, "Red, small and juicy fruit."s, bag, FOOD);
-
 	Item* meat = new Item("Meat"s, "Some dead creature's spoiled meat. It looks rotten."s, NULL, COMMON);
 	Item* branch = new Item("Branch"s, "A long tree limb."s, NULL, MATERIAL);
 	Item* flint = new Item("Flint"s, "A small piece of sharp flint."s, NULL, MATERIAL);
 	Item* vine = new Item("Vine"s, "A long string, it could be used as a rope."s, NULL, MATERIAL);
 
+	worldEntities.push_back(wallPainting);
+	worldEntities.push_back(bag);
+	worldEntities.push_back(berry);
+	worldEntities.push_back(meat);
+	worldEntities.push_back(branch);
+	worldEntities.push_back(flint);
+	worldEntities.push_back(vine);
+
 	list<string> spearReceipe;
 	spearReceipe.push_back(branch->name);
 	spearReceipe.push_back(flint->name);
 	spearReceipe.push_back(vine->name);
+
+	CraftableItem* spear = new CraftableItem("Spear"s, "long and sharp weapon"s, NULL, WEAPON, spearReceipe);
+
+	worldEntities.push_back(spear);
+
+	Creature* monster = new Creature("Smilodon"s, "The Saber-toothed cat"s, end);
+	player = new Player("Player"s, "You're a lost hunter and you have to find the way back to your village."s, cliff);
+
+	worldEntities.push_back(monster);
+	worldEntities.push_back(player);
 
 	cliff->AddItem(wallPainting);
 	clearing->AddItem(branch);
@@ -63,10 +95,6 @@ World::World()
 	forest->AddItem(bag);
 	downTheWell->AddItem(meat);
 
-	CraftableItem* spear = new CraftableItem("Spear"s, "long and sharp weapon"s, NULL, WEAPON, spearReceipe);
-
-	interactables = {player, bag, berry, branch, flint, vine, meat, wallPainting, spear};
-
 	printMessage("Welcom to Tribal Zork!");
 	printMessage("10.000 BC. You wake up at the base of a high cliff. After going hunting with your tribe you felt down, and lost all your equipment. You've probably been unconscious for a few hours. Explore your surroundings and find a way to get back home.");
 	player->Look(NULL);
@@ -74,6 +102,15 @@ World::World()
 
 World::~World()
 {
+	for (list<Entity*>::reverse_iterator rit = worldEntities.rbegin(); rit != worldEntities.rend(); ++rit){
+		delete *rit;
+	}
+	worldEntities.clear();
+
+	for (Command* cm : commands) {
+		delete cm;
+	}
+	commands.clear();
 }
 
 Action World::ParseInput(const string& input) {
@@ -101,8 +138,8 @@ Action World::ParseInput(const string& input) {
 				player->Look(NULL);
 			}
 			else {
-				for (Entity* element : interactables) {
-					if (compareString(args, element->name) && element->parent == NULL) {
+				for (Entity* element : worldEntities) {
+					if (compareString(args, element->name) && element->parent == NULL && element->type != EXIT) {
 						player->Look(element);
 						found = true;
 						break;
@@ -162,8 +199,8 @@ Action World::ParseInput(const string& input) {
 				player->Take(NULL);
 			}
 			else {
-				for (Entity* element : interactables) {
-					if (compareString(args, element->name) && element->parent == NULL) {
+				for (Entity* element : worldEntities) {
+					if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							player->Take(item);
 							found = true;
@@ -185,7 +222,7 @@ Action World::ParseInput(const string& input) {
 			}
 			else {
 				for (Entity* element : player->childEntities) {
-					if (compareString(args, element->name)) {
+					if (compareString(args, element->name) && (element->type == ITEM)) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							player->Drop(item);
 							found = true;
@@ -206,8 +243,8 @@ Action World::ParseInput(const string& input) {
 				player->Craft(NULL);
 			}
 			else {
-				for (Entity* element : interactables) {
-					if (compareString(args, element->name)) {
+				for (Entity* element : worldEntities) {
+					if (compareString(args, element->name) && (element->type == ITEM)) {
 						if (CraftableItem* item = dynamic_cast<CraftableItem*>(element)) {
 							player->Craft(item);
 							found = true;
@@ -228,8 +265,8 @@ Action World::ParseInput(const string& input) {
 				player->Eat(NULL);
 			}
 			else {
-				for (Entity* element : interactables) {
-					if (compareString(args, element->name) && element->parent == NULL) {
+				for (Entity* element : worldEntities) {
+					if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							player->Eat(item);
 							found = true;
@@ -253,8 +290,8 @@ Action World::ParseInput(const string& input) {
 				player->Open(NULL);
 			}
 			else {
-				for (Entity* element : interactables) {
-					if (compareString(args, element->name) && element->parent == NULL) {
+				for (Entity* element : worldEntities) {
+					if (compareString(args, element->name) && element->parent == NULL && (element->type == ITEM)) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							player->Open(item);
 							found = true;
@@ -277,8 +314,8 @@ Action World::ParseInput(const string& input) {
 			else {
 				Item* first = NULL;
 				Item* second = NULL;
-				for (Entity* element : interactables) {
-					if (compareString(args.substr(0,element->name.size()), element->name) && element->parent == NULL) {
+				for (Entity* element : worldEntities) {
+					if (compareString(args.substr(0,element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							first = item;
 							break;
@@ -293,8 +330,8 @@ Action World::ParseInput(const string& input) {
 				args.erase(0, first->name.size());
 				//Ignoring " in "
 				args.erase(0, 4);
-				for (Entity* element : interactables) {
-					if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL) {
+				for (Entity* element : worldEntities) {
+					if (compareString(args.substr(0, element->name.size()), element->name) && element->parent == NULL && (element->type == ITEM)) {
 						if (Item* item = dynamic_cast<Item*>(element)) {
 							second = item;
 							break;
