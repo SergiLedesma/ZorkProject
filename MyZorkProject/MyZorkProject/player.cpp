@@ -267,3 +267,9 @@ bool Player::Put(Item * item, Item * container)
 	}
 	return false;
 }
+
+bool Player::Help()
+{
+	printHelp();
+	return true;
+}

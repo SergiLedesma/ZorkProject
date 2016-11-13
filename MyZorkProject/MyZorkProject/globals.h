@@ -29,6 +29,7 @@ enum Action {
 	INVENTORY,
 	OPEN,
 	PUT,
+	HELP,
 	NONE,
 	END,
 	QUIT
@@ -38,6 +39,8 @@ enum Action {
 namespace Globals {
 	void printMessage(string message);
 	void printMessage(string message, string message2);
+	void printHelp();
+	void printIntro();
 	bool compareString(string first, string second);
 	bool compareString(string first, const Direction direction);
 };

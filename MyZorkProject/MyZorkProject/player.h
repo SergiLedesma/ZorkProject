@@ -33,6 +33,7 @@ public:
 	void Inventory();
 	bool Open(Item* item);
 	bool Put(Item* item, Item* container);
+	bool Help();
 };
 
 #endif

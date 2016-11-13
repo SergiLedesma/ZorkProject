@@ -16,6 +16,7 @@ World::World()
 		new Command({ "inventory" }, INVENTORY, 1),
 		new Command({ "open" }, OPEN, 1),
 		new Command({ "put" }, PUT, 1),
+		new Command({ "help" }, HELP, 1),
 		new Command({ "quit", "exit" }, QUIT, 1),
 	};
 	
@@ -95,8 +96,8 @@ World::World()
 	forest->AddItem(bag);
 	downTheWell->AddItem(meat);
 
-	printMessage("Welcom to Tribal Zork!");
-	printMessage("10.000 BC. You wake up at the base of a high cliff. After going hunting with your tribe you felt down, and lost all your equipment. You've probably been unconscious for a few hours. Explore your surroundings and find a way to get back home.");
+	printIntro();
+
 	player->Look(NULL);
 }
 
@@ -345,6 +346,9 @@ Action World::ParseInput(const string& input) {
 					printMessage("You don't have that container.");
 				}
 			}
+			break;
+		case HELP:
+			player->Help();
 			break;
 		case QUIT:
 			break;

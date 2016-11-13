@@ -16,6 +16,7 @@ int main() {
 	
 	while (end == false) {
 		getline(cin, playerInput);
+		printMessage("");
 
 		action = myWorld.ParseInput(playerInput);
 
