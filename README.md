@@ -52,3 +52,10 @@ Depending on which items the player has on entering the final room (Smilodon's L
 - **Meat**: The player distracts the Smilodon for a while, but it ends up getting caught and killed.
 - **Spear**: The player kills the Smilodon, but also dies wounded by the great creature.
 - **Spear and meat**: The player distracts the creature with the spoiled meat and wins killing the creature from behind.
+
+
+### Author
+Sergi Ledesma Sánchez
+Contact: sergi.dev@gmail.com
+Check out the full project at https://github.com/SergiLedesma
+Project License: GNU GENERAL PUBLIC LICENSE 3.0
