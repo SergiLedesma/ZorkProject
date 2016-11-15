@@ -45,8 +45,9 @@ The player will use commands to interact with the world:
 | --- | --- | --- | --- | --- |
 |Put |(item)| in  |(container)| Remove item from player's inventory and store it inside the container |
 
+
 ### Ending
-Depending on which items the player has on entering the final room he will have one of the 4 different endings.
+Depending on which items the player has on entering the final room (Smilodon's Lair) he will have one of the 4 different endings.
 - **No spear and no meat**: The player dies facing the Smilodon.
 - **Meat**: The player distracts the Smilodon for a while, but it ends up getting caught and killed.
 - **Spear**: The player kills the Smilodon, but also dies wounded by the great creature.
