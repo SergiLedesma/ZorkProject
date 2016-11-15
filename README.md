@@ -55,7 +55,7 @@ Depending on which items the player has on entering the final room (Smilodon's L
 
 
 ### Author
-<br> Sergi Ledesma Sánchez
+Sergi Ledesma Sánchez
 <br> Contact: sergi.dev@gmail.com
 <br> Check out the full project at https://github.com/SergiLedesma
 <br> Project License: GNU GENERAL PUBLIC LICENSE 3.0
