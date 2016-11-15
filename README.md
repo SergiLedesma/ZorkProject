@@ -19,7 +19,7 @@ The map has 9 rooms to explore. In those rooms the player will have to pick up i
 - **Flint**: a small piece of sharp flint.
 - **Vine**: a long string, it could be used as a rope.
 - **Spoiled meat**: some dead creature's meat. It looks rotten.
-- **Spear**: a long sharp spear.  RECEIPE (1xBranch + 1xFlint + 1xVine)
+- **Spear**: a long sharp spear.  RECIPE (1xBranch + 1xFlint + 1xVine)
 
 
 ### Gameplay
@@ -46,7 +46,7 @@ The player will use commands to interact with the world:
 |Put |(item)| in  |(container)| Remove item from player's inventory and store it inside the container |
 
 
-### Ending
+### Endings (SPOILER)
 Depending on which items the player has on entering the final room (Smilodon's Lair) he will have one of the 4 different endings.
 - **No spear and no meat**: The player dies facing the Smilodon.
 - **Meat**: The player distracts the Smilodon for a while, but it ends up getting caught and killed.
